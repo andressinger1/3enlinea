@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Combinaciones - 14 Páginas</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 15px;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+            touch-action: manipulation;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-secondary { background: var(--secondary); color: white; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            padding: 10px 16px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        select:disabled {
+            background-color: #f1f5f9;
+            cursor: not-allowed;
+            color: #94a3b8;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 640px) {
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            body { padding: 20px; }
+            .card { padding: 20px; }
+            h1 { font-size: 1.6rem; }
+        }
+
+        .opcion-box {
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 6px;
+            background: #fdfdfd;
+        }
+
+        .opcion-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .item-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        @media (min-width: 640px) {
+            .item-card {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .tag {
+            background: #dbeafe;
+            color: var(--primary-dark);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .hidden { display: none !important; }
+
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .admin-pages-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 640px) {
+            .admin-pages-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Combinador (14 Páginas)</h1>
+        <div>
+            <button id="adminBtn" class="btn btn-secondary" onclick="toggleAdminModal()">Acceso Admin</button>
+            <button id="logoutBtn" class="btn btn-danger hidden" onclick="logoutAdmin()">Cerrar Admin</button>
+        </div>
+    </header>
+
+    <div class="nav-tabs">
+        <button id="tab-btn-crear" class="tab-btn active" onclick="switchTab('crear')">Crear Combinación</button>
+        <button id="tab-btn-ver" class="tab-btn" onclick="switchTab('ver')">Ver Combinaciones</button>
+        <button id="tab-btn-config" class="tab-btn admin-only hidden" onclick="switchTab('config')">Configurar Páginas</button>
+    </div>
+
+    <!-- TAB CREAR -->
+    <div id="tab-crear" class="tab-content">
+        <div class="card">
+            <h2>Nueva Combinación</h2>
+            <br>
+            <div class="form-group">
+                <label>Nombre de la Combinación / Persona:</label>
+                <input type="text" id="combName" placeholder="Ej: Juanito">
+            </div>
+            
+            <div class="grid-3">
+                <!-- Opción 1 -->
+                <div class="opcion-box">
+                    <div class="opcion-title">Opción 1</div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem;">Página:</label>
+                        <select id="pageOpt1" onchange="onPageChange(1)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem;">Caballo:</label>
+                        <select id="horseOpt1" disabled></select>
+                    </div>
+                </div>
+
+                <!-- Opción 2 -->
+                <div class="opcion-box">
+                    <div class="opcion-title">Opción 2</div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem;">Página:</label>
+                        <select id="pageOpt2" onchange="onPageChange(2)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem;">Caballo:</label>
+                        <select id="horseOpt2" disabled></select>
+                    </div>
+                </div>
+
+                <!-- Opción 3 -->
+                <div class="opcion-box">
+                    <div class="opcion-title">Opción 3</div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem;">Página:</label>
+                        <select id="pageOpt3" onchange="onPageChange(3)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.85rem;">Caballo:</label>
+                        <select id="horseOpt3" disabled></select>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <button class="btn btn-primary" style="width: 100%;" onclick="guardarCombinacion()">Guardar Combinación</button>
+        </div>
+    </div>
+
+    <!-- TAB VER -->
+    <div id="tab-ver" class="tab-content hidden">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h2>Combinaciones Guardadas</h2>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-success" onclick="copiarTodasWhatsApp()">Copiar Lista Completa</button>
+                    <button class="btn btn-danger admin-only hidden" onclick="borrarTodo()">Borrar Todo</button>
+                </div>
+            </div>
+            <div id="listaCombinaciones"></div>
+        </div>
+    </div>
+
+    <!-- TAB CONFIGURAR (ADMIN ONLY) -->
+    <div id="tab-config" class="tab-content hidden">
+        <div class="card">
+            <h2>Configuración de Páginas y Caballos</h2>
+            <p style="color: var(--secondary); margin-bottom: 15px; font-size: 0.9rem;">Edita los nombres de los 16 Caballos de cada página. Los que mantengan "Caballo X" no aparecerán para combinar:</p>
+            <div class="admin-pages-grid" id="adminPagesContainer"></div>
+            <br>
+            <button class="btn btn-success" style="width: 100%;" onclick="guardarConfiguracion()">Guardar Cambios de Páginas</button>
+        </div>
+
+        <div class="card">
+            <h3>Cambiar Clave de Administrador</h3>
+            <br>
+            <div class="form-group">
+                <label>Nueva Clave:</label>
+                <input type="password" id="newPass" placeholder="Nueva contraseña">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="cambiarClave()">Actualizar Clave</button>
+        </div>
+    </div>
+
+    <!-- MODAL ADMIN -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Ingreso de Administrador</h3>
+            <br>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" id="adminPassInput" placeholder="Ingrese clave (por defecto 1234)" onkeydown="if(event.key==='Enter') loginAdmin()">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="toggleAdminModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="loginAdmin()">Ingresar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_PAGES = 14;
+        const DEFAULT_ITEMS_PER_PAGE = 16;
+
+        let appData = {
+            isAdmin: false,
+            adminPass: "1234",
+            paginas: {},
+            combinaciones: []
+        };
+
+        function init() {
+            const localData = localStorage.getItem('app_combinador_data');
+            if (localData) {
+                try {
+                    const parsed = JSON.parse(localData);
+                    appData.adminPass = parsed.adminPass || "1234";
+                    appData.paginas = parsed.paginas || {};
+                    appData.combinaciones = parsed.combinaciones || [];
+                } catch(e) {
+                    console.error("Error al cargar datos locales", e);
+                }
+            }
+            
+            for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                if (!appData.paginas[p] || appData.paginas[p].length !== DEFAULT_ITEMS_PER_PAGE) {
+                    const existing = appData.paginas[p] || [];
+                    appData.paginas[p] = [];
+                    for (let c = 1; c <= DEFAULT_ITEMS_PER_PAGE; c++) {
+                        appData.paginas[p].push(existing[c-1] || `Caballo ${c}`);
+                    }
+                }
+            }
+            appData.isAdmin = false;
+            saveLocal();
+            resetPageSelectors();
+            renderCombinaciones();
+            renderAdminConfig();
+        }
+
+        function saveLocal() {
+            try {
+                localStorage.setItem('app_combinador_data', JSON.stringify({
+                    adminPass: appData.adminPass,
+                    paginas: appData.paginas,
+                    combinaciones: appData.combinaciones
+                }));
+            } catch(e) {
+                console.error("Error al guardar en localStorage", e);
+            }
+        }
+
+        function paginaTieneCaballosValidos(p) {
+            const caballos = appData.paginas[p];
+            if (!caballos) return false;
+            return caballos.some((nombre, idx) => {
+                const defName = `Caballo ${idx + 1}`;
+                return nombre.trim() !== defName && nombre.trim() !== "";
+            });
+        }
+
+        function resetPageSelectors() {
+            const p1 = document.getElementById('pageOpt1').value;
+            const p2 = document.getElementById('pageOpt2').value;
+            const p3 = document.getElementById('pageOpt3').value;
+
+            const selectedPages = { 1: p1, 2: p2, 3: p3 };
+
+            [1, 2, 3].forEach(optNum => {
+                const pageSelect = document.getElementById(`pageOpt${optNum}`);
+                if (!pageSelect) return;
+                const currentVal = selectedPages[optNum];
+
+                pageSelect.innerHTML = '<option value="">-- Seleccionar Página --</option>';
+
+                for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                    if (!paginaTieneCaballosValidos(p)) continue;
+
+                    const option = document.createElement('option');
+                    option.value = p;
+                    option.textContent = `Página ${p}`;
+
+                    let isUsedElsewhere = false;
+                    [1, 2, 3].forEach(otherOpt => {
+                        if (otherOpt !== optNum && selectedPages[otherOpt] === String(p)) {
+                            isUsedElsewhere = true;
+                        }
+                    });
+
+                    if (isUsedElsewhere) {
+                        option.disabled = true;
+                        option.textContent += ' 🚫 (Ya elegida)';
+                    }
+
+                    pageSelect.appendChild(option);
+                }
+
+                pageSelect.value = currentVal;
+            });
+        }
+
+        function onPageChange(optNum) {
+            const selectedPage = document.getElementById(`pageOpt${optNum}`).value;
+            const horseSelect = document.getElementById(`horseOpt${optNum}`);
+            if (!horseSelect) return;
+
+            resetPageSelectors();
+
+            if (!selectedPage) {
+                horseSelect.innerHTML = '<option value="">-- Seleccionar Caballo --</option>';
+                horseSelect.disabled = true;
+                return;
+            }
+
+            horseSelect.innerHTML = '<option value="">-- Seleccionar Caballo --</option>';
+            horseSelect.disabled = false;
+
+            const p = parseInt(selectedPage);
+            appData.paginas[p].forEach((nombre, idx) => {
+                const lineaNum = idx + 1;
+                const defName = `Caballo ${lineaNum}`;
+                
+                if (nombre.trim() === defName || nombre.trim() === "") return;
+
+                const option = document.createElement('option');
+                option.value = JSON.stringify({ pagina: p, linea: lineaNum, nombre: nombre });
+                option.textContent = `${nombre} (#${lineaNum})`;
+
+                horseSelect.appendChild(option);
+            });
+        }
+
+        function obtenerFirmaCombinacion(items) {
+            const claves = items.map(i => `${i.pagina}-${i.linea}`).sort();
+            return claves.join('|');
+        }
+
+        function guardarCombinacion() {
+            const name = document.getElementById('combName').value.trim();
+            const h1 = document.getElementById('horseOpt1').value;
+            const h2 = document.getElementById('horseOpt2').value;
+            const h3 = document.getElementById('horseOpt3').value;
+
+            if (!name) return alert('Debes ingresar un nombre para la combinación.');
+            if (!h1 || !h2 || !h3) return alert('Debes seleccionar la Página y Caballo en las 3 opciones.');
+
+            const item1 = JSON.parse(h1);
+            const item2 = JSON.parse(h2);
+            const item3 = JSON.parse(h3);
+            const nuevosItems = [item1, item2, item3];
+
+            const nuevaFirma = obtenerFirmaCombinacion(nuevosItems);
+            const yaExiste = appData.combinaciones.some(c => obtenerFirmaCombinacion(c.items) === nuevaFirma);
+
+            if (yaExiste) {
+                return alert('⚠️ Esta combinación EXACTA de 3 opciones ya fue realizada por otra persona anteriormente. Elige una variación.');
+            }
+
+            appData.combinaciones.push({
+                id: Date.now(),
+                nombre: name,
+                items: nuevosItems
+            });
+
+            saveLocal();
+
+            document.getElementById('combName').value = '';
+            document.getElementById('pageOpt1').value = '';
+            document.getElementById('pageOpt2').value = '';
+            document.getElementById('pageOpt3').value = '';
+            
+            onPageChange(1);
+            onPageChange(2);
+            onPageChange(3);
+            resetPageSelectors();
+
+            renderCombinaciones();
+            alert('¡Combinación guardada con éxito!');
+        }
+
+        function renderCombinaciones() {
+            const container = document.getElementById('listaCombinaciones');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (appData.combinaciones.length === 0) {
+                container.innerHTML = '<p style="color: var(--secondary); padding: 10px 0;">No hay combinaciones registradas.</p>';
+                return;
+            }
+
+            appData.combinaciones.forEach((c, index) => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+
+                // Formato en pantalla: Página. Nombre. Número de caballo (ej: 3. Relámpago. 4)
+                let itemsHtml = c.items.map(i => `<span class="tag">${i.pagina}. ${i.nombre}. ${i.linea}</span>`).join(' ');
+
+                let deleteBtn = appData.isAdmin ? `<button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.85rem;" onclick="eliminarCombinacion(${c.id})">Borrar</button>` : '';
+
+                itemCard.innerHTML = `
+                    <div>
+                        <strong style="font-size: 1.05rem; color: var(--primary);">#${index + 1} - ${c.nombre}</strong>
+                        <div style="margin-top: 6px;">${itemsHtml}</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <button class="btn btn-success" style="padding: 6px 12px; font-size: 0.85rem;" onclick="copiarWhatsApp(${c.id})">Copiar WhatsApp</button>
+                        ${deleteBtn}
+                    </div>
+                `;
+                container.appendChild(itemCard);
+            });
+        }
+
+        function copiarWhatsApp(id) {
+            const index = appData.combinaciones.findIndex(c => c.id === id);
+            if (index === -1) return;
+            const comb = appData.combinaciones[index];
+
+            // Formato WhatsApp: Página. Nombre. Número de caballo
+            let text = `📋 *#${index + 1} - ${comb.nombre}*\n`;
+            comb.items.forEach(i => {
+                text += `• ${i.pagina}. ${i.nombre}. ${i.linea}\n`;
+            });
+
+            copiarAlPortapapeles(text, '¡Combinación copiada al portapapeles!');
+        }
+
+        function copiarTodasWhatsApp() {
+            if (appData.combinaciones.length === 0) {
+                return alert('No hay combinaciones registradas para copiar.');
+            }
+
+            let textoTotal = "📋 *LISTA DE COMBINACIONES* 📋\n\n";
+            appData.combinaciones.forEach((comb, index) => {
+                textoTotal += `*#${index + 1} - ${comb.nombre}*\n`;
+                comb.items.forEach(i => {
+                    textoTotal += `• ${i.pagina}. ${i.nombre}. ${i.linea}\n`;
+                });
+                textoTotal += "\n";
+            });
+
+            copiarAlPortapapeles(textoTotal.trim(), '¡Todas las combinaciones han sido copiadas!');
+        }
+
+        function copiarAlPortapapeles(texto, mensajeExito) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(texto).then(() => {
+                    alert(mensajeExito);
+                }).catch(() => {
+                    fallbackCopiarTexto(texto, mensajeExito);
+                });
+            } else {
+                fallbackCopiarTexto(texto, mensajeExito);
+            }
+        }
+
+        function fallbackCopiarTexto(texto, mensajeExito) {
+            const textArea = document.createElement("textarea");
+            textArea.value = texto;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert(mensajeExito);
+                } else {
+                    alert("No se pudo copiar automáticamente.");
+                }
+            } catch (err) {
+                alert("Tu navegador no permite copiar automáticamente.");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function eliminarCombinacion(id) {
+            if (!appData.isAdmin) return;
+            if (confirm('¿Deseas eliminar esta combinación?')) {
+                appData.combinaciones = appData.combinaciones.filter(c => c.id !== id);
+                saveLocal();
+                resetPageSelectors();
+                onPageChange(1);
+                onPageChange(2);
+                onPageChange(3);
+                renderCombinaciones();
+            }
+        }
+
+        function borrarTodo() {
+            if (!appData.isAdmin) return;
+            if (confirm('¿Seguro que deseas reiniciar TODAS las combinaciones de la semana?')) {
+                appData.combinaciones = [];
+                saveLocal();
+                resetPageSelectors();
+                onPageChange(1);
+                onPageChange(2);
+                onPageChange(3);
+                renderCombinaciones();
+                alert('Se han borrado todas las combinaciones.');
+            }
+        }
+
+        function renderAdminConfig() {
+            const container = document.getElementById('adminPagesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                const card = document.createElement('div');
+                card.style.border = '1px solid var(--border)';
+                card.style.padding = '12px';
+                card.style.borderRadius = '6px';
+                card.style.background = '#fafafa';
+
+                let inputsHtml = '';
+                appData.paginas[p].forEach((nombre, idx) => {
+                    inputsHtml += `
+                        <div style="margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <span style="font-size: 0.8rem; width: 75px; font-weight:600;">Caballo ${idx + 1}:</span>
+                            <input type="text" class="admin-input-page" data-pagina="${p}" data-index="${idx}" value="${nombre}" style="padding: 8px; font-size: 0.85rem; background: white;">
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `<h4 style="color: var(--primary); margin-bottom: 8px;">Página ${p}</h4>${inputsHtml}`;
+                container.appendChild(card);
+            }
+        }
+
+        function guardarConfiguracion() {
+            if (!appData.isAdmin) return;
+
+            const inputs = document.querySelectorAll('.admin-input-page');
+            inputs.forEach(input => {
+                const p = input.getAttribute('data-pagina');
+                const idx = parseInt(input.getAttribute('data-index'));
+                appData.paginas[p][idx] = input.value.trim() || `Caballo ${idx + 1}`;
+            });
+
+            saveLocal();
+            resetPageSelectors();
+            onPageChange(1);
+            onPageChange(2);
+            onPageChange(3);
+            renderCombinaciones();
+            alert('¡Configuración guardada correctamente!');
+        }
+
+        function toggleAdminModal() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.toggle('hidden');
+            if(!modal.classList.contains('hidden')) {
+                document.getElementById('adminPassInput').focus();
+            }
+        }
+
+        function loginAdmin() {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === appData.adminPass) {
+                appData.isAdmin = true;
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                document.getElementById('adminBtn').classList.add('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                toggleAdminModal();
+                document.getElementById('adminPassInput').value = '';
+                renderCombinaciones();
+                renderAdminConfig();
+                alert('Sesión de Administrador iniciada.');
+            } else {
+                alert('Contraseña incorrecta.');
+            }
+        }
+
+        function logoutAdmin() {
+            appData.isAdmin = false;
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+            document.getElementById('adminBtn').classList.remove('hidden');
+            document.getElementById('logoutBtn').classList.add('hidden');
+            switchTab('crear');
+            renderCombinaciones();
+        }
+
+        function cambiarClave() {
+            if (!appData.isAdmin) return;
+            const newPass = document.getElementById('newPass').value.trim();
+            if (newPass) {
+                appData.adminPass = newPass;
+                saveLocal();
+                document.getElementById('newPass').value = '';
+                alert('¡Clave de administrador actualizada con éxito!');
+            } else {
+                alert('La clave no puede estar vacía.');
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+
+            if (tabName === 'crear') {
+                resetPageSelectors();
+            } else if (tabName === 'ver') {
+                renderCombinaciones();
+            } else if (tabName === 'config' && appData.isAdmin) {
+                renderAdminConfig();
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

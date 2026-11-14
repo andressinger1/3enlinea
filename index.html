@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3 en Línea | Premium Edition</title>
+    <style>
+        /* TEMA OSCURO (PREDETERMINADO - PREMIUM) */
+        :root {
+            --bg-main: #0b0f19;
+            --surface: #131c2e;
+            --surface-alt: #0f172a;
+            --surface-hover: #1e293b;
+            --border: #1e293b;
+            --border-light: #334155;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.15);
+            --danger-text: #f87171;
+            --success: #10b981;
+            --tag-bg: rgba(59, 130, 246, 0.15);
+            --tag-text: #60a5fa;
+            --tag-border: rgba(59, 130, 246, 0.3);
+            --tag-win-bg: rgba(16, 185, 129, 0.15);
+            --tag-win-text: #34d399;
+            --card-win-bg: rgba(16, 185, 129, 0.06);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.35), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* TEMA CLARO */
+        body.light-theme {
+            --bg-main: #f1f5f9;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --surface-hover: #e2e8f0;
+            --border: #e2e8f0;
+            --border-light: #cbd5e1;
+            --text-main: #0f172a;
+            --text-secondary: #475569;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --accent: #d97706;
+            --danger: #ef4444;
+            --danger-bg: #fee2e2;
+            --danger-text: #dc2626;
+            --success: #10b981;
+            --tag-bg: #dbeafe;
+            --tag-text: #1d4ed8;
+            --tag-border: #bfdbfe;
+            --tag-win-bg: #dcfce7;
+            --tag-win-text: #15803d;
+            --card-win-bg: #f0fdf4;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 15px;
+            max-width: 950px;
+            margin: 0 auto;
+            min-height: 100vh;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        .btn-theme {
+            padding: 9px 13px;
+            font-size: 1.1rem;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        .btn-theme:hover {
+            background: var(--surface-hover);
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-danger { background: var(--danger-bg); color: var(--danger-text); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .btn-danger:hover { opacity: 0.85; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #059669; }
+        .btn-secondary { background: var(--surface); color: var(--text-main); border: 1px solid var(--border-light); }
+        .btn-secondary:hover { background: var(--surface-hover); }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            border-color: var(--border-light);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .card h2, .card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 1rem; /* Evita zoom automático en iOS */
+            background: var(--surface-alt);
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 640px) {
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            body { padding: 25px; }
+            .card { padding: 25px; }
+            input, select, textarea { font-size: 0.95rem; }
+        }
+
+        .opcion-box {
+            border: 1px solid var(--border-light);
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--surface-alt);
+        }
+
+        .opcion-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-card {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .item-card.ganadora {
+            border: 1.5px solid var(--success);
+            background: var(--card-win-bg);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.12);
+        }
+
+        @media (min-width: 640px) {
+            .item-card {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            border: 1px solid var(--tag-border);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 3px;
+        }
+
+        .tag.acierto {
+            background: var(--tag-win-bg);
+            color: var(--tag-win-text);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .hidden { display: none !important; }
+
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(11, 15, 25, 0.75);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .admin-pages-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 640px) {
+            .admin-pages-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+        }
+
+        .admin-page-card {
+            border: 1px solid var(--border-light);
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--surface-alt);
+        }
+    </style>
+
+    <!-- SDKs de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>3 en Línea</h1>
+            <span class="status-badge" id="statusBadge">Conectando a la nube...</span>
+        </div>
+        <div class="header-actions">
+            <button id="themeToggleBtn" class="btn-theme" onclick="toggleTheme()" title="Cambiar tema">☀️</button>
+            <button id="adminBtn" class="btn btn-secondary" onclick="toggleAdminModal()">Acceso Admin</button>
+            <button id="logoutBtn" class="btn btn-danger hidden" onclick="logoutAdmin()">Cerrar Admin</button>
+        </div>
+    </header>
+
+    <div class="nav-tabs">
+        <button id="tab-btn-crear" class="tab-btn active" onclick="switchTab('crear')">Crear Combinación</button>
+        <button id="tab-btn-ver" class="tab-btn" onclick="switchTab('ver')">Ver Combinaciones</button>
+        <button id="tab-btn-config" class="tab-btn admin-only hidden" onclick="switchTab('config')">Configurar Páginas</button>
+    </div>
+
+    <!-- TAB CREAR -->
+    <div id="tab-crear" class="tab-content">
+        <div class="card">
+            <h2>Nueva Combinación</h2>
+            <br>
+            <div class="form-group">
+                <label>Nombre de la Combinación / Persona:</label>
+                <input type="text" id="combName" placeholder="Ej: Juanito">
+            </div>
+            
+            <div class="grid-3">
+                <!-- Opción 1 -->
+                <div class="opcion-box">
+                    <div class="opcion-title">Opción 1</div>
+                    <div class="form-group">
+                        <label>Página:</label>
+                        <select id="pageOpt1" onchange="onPageChange(1)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Caballo:</label>
+                        <select id="horseOpt1" disabled></select>
+                    </div>
+                </div>
+
+                <!-- Opción 2 -->
+                <div class="opcion-box">
+                    <div class="opcion-title">Opción 2</div>
+                    <div class="form-group">
+                        <label>Página:</label>
+                        <select id="pageOpt2" onchange="onPageChange(2)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Caballo:</label>
+                        <select id="horseOpt2" disabled></select>
+                    </div>
+                </div>
+
+                <!-- Opción 3 -->
+                <div class="opcion-box">
+                    <div class="opcion-title">Opción 3</div>
+                    <div class="form-group">
+                        <label>Página:</label>
+                        <select id="pageOpt3" onchange="onPageChange(3)"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Caballo:</label>
+                        <select id="horseOpt3" disabled></select>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <button class="btn btn-success" style="width: 100%; padding: 14px;" onclick="guardarCombinacion()">Guardar Combinación</button>
+        </div>
+    </div>
+
+    <!-- TAB VER -->
+    <div id="tab-ver" class="tab-content hidden">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                <h2>Combinaciones Guardadas</h2>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-success" onclick="copiarTodasWhatsApp()">Copiar Lista Completa</button>
+                    <button class="btn btn-danger admin-only hidden" onclick="borrarTodo()">Borrar Todo</button>
+                </div>
+            </div>
+            <div id="listaCombinaciones"></div>
+        </div>
+    </div>
+
+    <!-- TAB CONFIGURAR (ADMIN ONLY) -->
+    <div id="tab-config" class="tab-content hidden">
+        <div class="card">
+            <h2>Mensaje Personalizado para WhatsApp</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.85rem;">Escribe el texto que aparecerá encabezando la lista cuando compartas por WhatsApp:</p>
+            <div class="form-group">
+                <textarea id="customWhatsAppHeader" placeholder="Ej: 🏆 ¡MIS FIJAS Y COMBINACIONES PARA HOY! 🏆"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="guardarMensajeHeader()">Guardar Mensaje</button>
+        </div>
+
+        <div class="card">
+            <h2>Resultados Oficiales (Ganadores por Página)</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.85rem;">Indica qué número de caballo ganó en cada página para resaltar automáticamente las combinaciones ganadoras:</p>
+            <div id="resultadosGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 15px;"></div>
+            <button class="btn btn-success" onclick="guardarResultados()">Guardar Resultados</button>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h2>Configuración de Páginas y Caballos</h2>
+                <button class="btn btn-danger" onclick="borrarTodosNombresCaballos()">Borrar Todos los Nombres</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.85rem;">Edita los nombres de los 16 Caballos de cada una de las 6 páginas (Haz clic en cualquier casilla con "Caballo X" para borrarla automáticamente):</p>
+            <div class="admin-pages-grid" id="adminPagesContainer"></div>
+            <br>
+            <button class="btn btn-success" style="width: 100%; padding: 14px;" onclick="guardarConfiguracion()">Guardar Cambios de Páginas</button>
+        </div>
+
+        <div class="card">
+            <h3>Cambiar Clave de Administrador</h3>
+            <br>
+            <div class="form-group">
+                <label>Nueva Clave:</label>
+                <input type="password" id="newPass" placeholder="Nueva contraseña">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="cambiarClave()">Actualizar Clave</button>
+        </div>
+    </div>
+
+    <!-- MODAL ADMIN -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Ingreso de Administrador</h3>
+            <br>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" id="adminPassInput" placeholder="Ingrese clave (por defecto 1234)" onkeydown="if(event.key==='Enter') loginAdmin()">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="toggleAdminModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="loginAdmin()">Ingresar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GESTIÓN DE TEMA
+        function initTheme() {
+            const savedTheme = localStorage.getItem('3enlinea_theme');
+            const btn = document.getElementById('themeToggleBtn');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                btn.innerText = '🌙';
+                btn.title = 'Cambiar a tema oscuro';
+            } else {
+                document.body.classList.remove('light-theme');
+                btn.innerText = '☀️';
+                btn.title = 'Cambiar a tema claro';
+            }
+        }
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-theme');
+            const btn = document.getElementById('themeToggleBtn');
+            if (isLight) {
+                localStorage.setItem('3enlinea_theme', 'light');
+                btn.innerText = '🌙';
+                btn.title = 'Cambiar a tema oscuro';
+            } else {
+                localStorage.setItem('3enlinea_theme', 'dark');
+                btn.innerText = '☀️';
+                btn.title = 'Cambiar a tema claro';
+            }
+        }
+
+        initTheme();
+
+        // CONFIGURACIÓN DE FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyAutG5qr-F_KFBKmAU9pUh7XeoOJnksTTc",
+            authDomain: "en-linea-5dc6e.firebaseapp.com",
+            databaseURL: "https://en-linea-5dc6e-default-rtdb.firebaseio.com",
+            projectId: "en-linea-5dc6e",
+            storageBucket: "en-linea-5dc6e.firebasestorage.app",
+            messagingSenderId: "807337055459",
+            appId: "1:807337055459:web:d00e0867104595ee20e1d6"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const DEFAULT_PAGES = 6;
+        const DEFAULT_ITEMS_PER_PAGE = 16;
+
+        let appData = {
+            isAdmin: false,
+            adminPass: "1234",
+            whatsappHeader: "📋 *LISTA DE COMBINACIONES* 📋",
+            resultados: {}, 
+            paginas: {},
+            combinaciones: []
+        };
+
+        function initSync() {
+            db.ref('combinador_data_v2').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    appData.adminPass = data.adminPass || "1234";
+                    appData.whatsappHeader = data.whatsappHeader || "📋 *LISTA DE COMBINACIONES* 📋";
+                    appData.resultados = data.resultados || {};
+                    appData.paginas = data.paginas || {};
+                    appData.combinaciones = data.combinaciones || [];
+                }
+                
+                for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                    if (!appData.paginas[p] || appData.paginas[p].length !== DEFAULT_ITEMS_PER_PAGE) {
+                        const existing = appData.paginas[p] || [];
+                        appData.paginas[p] = [];
+                        for (let c = 1; c <= DEFAULT_ITEMS_PER_PAGE; c++) {
+                            appData.paginas[p].push(existing[c-1] || `Caballo ${c}`);
+                        }
+                    }
+                }
+
+                document.getElementById('statusBadge').innerText = "☁️ Sincronizado";
+                document.getElementById('customWhatsAppHeader').value = appData.whatsappHeader;
+
+                resetPageSelectors();
+                renderCombinaciones();
+                if (appData.isAdmin) {
+                    renderAdminConfig();
+                    renderResultadosInputs();
+                }
+            }, (error) => {
+                console.error(error);
+                document.getElementById('statusBadge').innerText = "⚠️ Sin conexión";
+                document.getElementById('statusBadge').style.background = "rgba(239, 68, 68, 0.15)";
+                document.getElementById('statusBadge').style.color = "#f87171";
+            });
+        }
+
+        function saveToCloud() {
+            db.ref('combinador_data_v2').set({
+                adminPass: appData.adminPass,
+                whatsappHeader: appData.whatsappHeader,
+                resultados: appData.resultados,
+                paginas: appData.paginas,
+                combinaciones: appData.combinaciones
+            });
+        }
+
+        function paginaTieneCaballosValidos(p) {
+            const caballos = appData.paginas[p];
+            if (!caballos) return false;
+            return caballos.some((nombre, idx) => {
+                const defName = `Caballo ${idx + 1}`;
+                return nombre.trim() !== defName && nombre.trim() !== "";
+            });
+        }
+
+        function resetPageSelectors() {
+            const p1 = document.getElementById('pageOpt1').value;
+            const p2 = document.getElementById('pageOpt2').value;
+            const p3 = document.getElementById('pageOpt3').value;
+
+            const selectedPages = { 1: p1, 2: p2, 3: p3 };
+
+            [1, 2, 3].forEach(optNum => {
+                const pageSelect = document.getElementById(`pageOpt${optNum}`);
+                if (!pageSelect) return;
+                const currentVal = selectedPages[optNum];
+
+                pageSelect.innerHTML = '<option value="">-- Seleccionar Página --</option>';
+
+                for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                    if (!paginaTieneCaballosValidos(p)) continue;
+
+                    const option = document.createElement('option');
+                    option.value = p;
+                    option.textContent = `Página ${p}`;
+
+                    let isUsedElsewhere = false;
+                    [1, 2, 3].forEach(otherOpt => {
+                        if (otherOpt !== optNum && selectedPages[otherOpt] === String(p)) {
+                            isUsedElsewhere = true;
+                        }
+                    });
+
+                    if (isUsedElsewhere) {
+                        option.disabled = true;
+                        option.textContent += ' 🚫 (Ya elegida)';
+                    }
+
+                    pageSelect.appendChild(option);
+                }
+
+                pageSelect.value = currentVal;
+            });
+        }
+
+        function onPageChange(optNum) {
+            const selectedPage = document.getElementById(`pageOpt${optNum}`).value;
+            const horseSelect = document.getElementById(`horseOpt${optNum}`);
+            if (!horseSelect) return;
+
+            resetPageSelectors();
+
+            if (!selectedPage) {
+                horseSelect.innerHTML = '<option value="">-- Seleccionar Caballo --</option>';
+                horseSelect.disabled = true;
+                return;
+            }
+
+            horseSelect.innerHTML = '<option value="">-- Seleccionar Caballo --</option>';
+            horseSelect.disabled = false;
+
+            const p = parseInt(selectedPage);
+            if (!appData.paginas[p]) return;
+
+            appData.paginas[p].forEach((nombre, idx) => {
+                const lineaNum = idx + 1;
+                const defName = `Caballo ${lineaNum}`;
+                
+                if (nombre.trim() === defName || nombre.trim() === "") return;
+
+                const option = document.createElement('option');
+                option.value = JSON.stringify({ pagina: p, linea: lineaNum, nombre: nombre });
+                option.textContent = `${nombre} (#${lineaNum})`;
+
+                horseSelect.appendChild(option);
+            });
+        }
+
+        function obtenerFirmaCombinacion(items) {
+            const claves = items.map(i => `${i.pagina}-${i.linea}`).sort();
+            return claves.join('|');
+        }
+
+        function guardarCombinacion() {
+            const nameField = document.getElementById('combName');
+            const name = nameField.value.trim();
+            const h1 = document.getElementById('horseOpt1').value;
+            const h2 = document.getElementById('horseOpt2').value;
+            const h3 = document.getElementById('horseOpt3').value;
+
+            if (!name) return alert('Debes ingresar un nombre para la combinación.');
+            if (!h1 || !h2 || !h3) return alert('Debes seleccionar la Página y Caballo en las 3 opciones.');
+
+            const item1 = JSON.parse(h1);
+            const item2 = JSON.parse(h2);
+            const item3 = JSON.parse(h3);
+            const nuevosItems = [item1, item2, item3];
+
+            const nuevaFirma = obtenerFirmaCombinacion(nuevosItems);
+            const yaExiste = appData.combinaciones.some(c => obtenerFirmaCombinacion(c.items) === nuevaFirma);
+
+            if (yaExiste) {
+                return alert('⚠️ Esta combinación EXACTA de 3 opciones ya fue realizada por otra persona anteriormente. Elige una variación.');
+            }
+
+            appData.combinaciones.push({
+                id: Date.now(),
+                nombre: name,
+                items: nuevosItems
+            });
+
+            saveToCloud();
+
+            nameField.value = '';
+            document.getElementById('pageOpt1').value = '';
+            document.getElementById('pageOpt2').value = '';
+            document.getElementById('pageOpt3').value = '';
+            
+            onPageChange(1);
+            onPageChange(2);
+            onPageChange(3);
+            resetPageSelectors();
+
+            alert('¡Combinación guardada con éxito y sincronizada!');
+        }
+
+        function esCombinacionGanadora(items) {
+            if (!appData.resultados || Object.keys(appData.resultados).length === 0) return false;
+            let aciertos = 0;
+            items.forEach(i => {
+                const ganadorLinea = appData.resultados[String(i.pagina)];
+                if (ganadorLinea && parseInt(ganadorLinea) === i.linea) {
+                    aciertos++;
+                }
+            });
+            return aciertos === 3;
+        }
+
+        function renderCombinaciones() {
+            const container = document.getElementById('listaCombinaciones');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (appData.combinaciones.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); padding: 15px 0; text-align: center;">No hay combinaciones registradas.</p>';
+                return;
+            }
+
+            appData.combinaciones.forEach((c, index) => {
+                const ganadora = esCombinacionGanadora(c.items);
+                const itemCard = document.createElement('div');
+                itemCard.className = ganadora ? 'item-card ganadora' : 'item-card';
+
+                let itemsHtml = c.items.map(i => {
+                    const esAciertoIndividual = appData.resultados[String(i.pagina)] && parseInt(appData.resultados[String(i.pagina)]) === i.linea;
+                    const tagClass = esAciertoIndividual ? 'tag acierto' : 'tag';
+                    const icono = esAciertoIndividual ? ' ✓' : '';
+                    return `<span class="${tagClass}">${i.pagina}. ${i.nombre}. ${i.linea}${icono}</span>`;
+                }).join(' ');
+
+                let badgeGanadora = ganadora ? `<span style="background: var(--success); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 8px;">🏆 ¡GANADORA!</span>` : '';
+                let deleteBtn = appData.isAdmin ? `<button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.8rem;" onclick="eliminarCombinacion(${c.id})">Borrar</button>` : '';
+
+                itemCard.innerHTML = `
+                    <div>
+                        <strong style="font-size: 1.05rem; color: var(--text-main);">#${index + 1} - ${c.nombre}</strong> ${badgeGanadora}
+                        <div style="margin-top: 8px;">${itemsHtml}</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <button class="btn btn-success" style="padding: 6px 12px; font-size: 0.85rem;" onclick="copiarWhatsApp(${c.id})">Copiar WhatsApp</button>
+                        ${deleteBtn}
+                    </div>
+                `;
+                container.appendChild(itemCard);
+            });
+        }
+
+        function copiarWhatsApp(id) {
+            const index = appData.combinaciones.findIndex(c => c.id === id);
+            if (index === -1) return;
+            const comb = appData.combinaciones[index];
+
+            let text = `${appData.whatsappHeader}\n\n`;
+            text += `*#${index + 1} - ${comb.nombre}*\n`;
+            comb.items.forEach(i => {
+                text += `• ${i.pagina}. ${i.nombre}. ${i.linea}\n`;
+            });
+
+            copiarAlPortapapeles(text, '¡Combinación copiada al portapapeles!');
+        }
+
+        function copiarTodasWhatsApp() {
+            if (appData.combinaciones.length === 0) {
+                return alert('No hay combinaciones registradas para copiar.');
+            }
+
+            let textoTotal = `${appData.whatsappHeader}\n\n`;
+            appData.combinaciones.forEach((comb, index) => {
+                textoTotal += `*#${index + 1} - ${comb.nombre}*\n`;
+                comb.items.forEach(i => {
+                    textoTotal += `• ${i.pagina}. ${i.nombre}. ${i.linea}\n`;
+                });
+                textoTotal += "\n";
+            });
+
+            copiarAlPortapapeles(textoTotal.trim(), '¡Todas las combinaciones han sido copiadas!');
+        }
+
+        function copiarAlPortapapeles(texto, mensajeExito) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(texto).then(() => {
+                    alert(mensajeExito);
+                }).catch(() => {
+                    fallbackCopiarTexto(texto, mensajeExito);
+                });
+            } else {
+                fallbackCopiarTexto(texto, mensajeExito);
+            }
+        }
+
+        function fallbackCopiarTexto(texto, mensajeExito) {
+            const textArea = document.createElement("textarea");
+            textArea.value = texto;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert(mensajeExito);
+                } else {
+                    alert("No se pudo copiar automáticamente.");
+                }
+            } catch (err) {
+                alert("Tu navegador no permite copiar automáticamente.");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function eliminarCombinacion(id) {
+            if (!appData.isAdmin) return;
+            if (confirm('¿Deseas eliminar esta combinación?')) {
+                appData.combinaciones = appData.combinaciones.filter(c => c.id !== id);
+                saveToCloud();
+            }
+        }
+
+        function borrarTodo() {
+            if (!appData.isAdmin) return;
+            if (confirm('¿Seguro que deseas reiniciar TODAS las combinaciones?')) {
+                appData.combinaciones = [];
+                saveToCloud();
+                alert('Se han borrado todas las combinaciones.');
+            }
+        }
+
+        function guardarMensajeHeader() {
+            if (!appData.isAdmin) return;
+            const headerField = document.getElementById('customWhatsAppHeader');
+            appData.whatsappHeader = headerField.value.trim() || "📋 *LISTA DE COMBINACIONES* 📋";
+            saveToCloud();
+            alert('¡Mensaje personalizado actualizado con éxito!');
+        }
+
+        function renderResultadosInputs() {
+            const container = document.getElementById('resultadosGrid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                const currentVal = appData.resultados[String(p)] || '';
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <label style="font-size:0.75rem;">Página ${p} (Nº):</label>
+                    <input type="number" min="1" max="16" class="admin-input-resultado" data-pagina="${p}" value="${currentVal}" placeholder="Ej: 5" style="padding: 10px;">
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        function guardarResultados() {
+            if (!appData.isAdmin) return;
+            const inputs = document.querySelectorAll('.admin-input-resultado');
+            let nuevosResultados = {};
+            inputs.forEach(input => {
+                const p = input.getAttribute('data-pagina');
+                const val = input.value.trim();
+                if (val) {
+                    nuevosResultados[p] = val;
+                }
+            });
+            appData.resultados = nuevosResultados;
+            saveToCloud();
+            renderCombinaciones();
+            alert('¡Resultados guardados y combinaciones ganadoras remarcadas!');
+        }
+
+        function renderAdminConfig() {
+            const container = document.getElementById('adminPagesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                const card = document.createElement('div');
+                card.className = 'admin-page-card';
+
+                let inputsHtml = '';
+                if (appData.paginas[p]) {
+                    appData.paginas[p].forEach((nombre, idx) => {
+                        const defName = `Caballo ${idx + 1}`;
+                        inputsHtml += `
+                            <div style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 0.75rem; width: 65px; font-weight:600; color:var(--text-secondary);">Caballo ${idx + 1}:</span>
+                                <input type="text" class="admin-input-page" data-pagina="${p}" data-index="${idx}" value="${nombre}" onfocus="if(this.value === '${defName}') this.value = '';" style="padding: 8px 10px; font-size: 0.85rem;">
+                            </div>
+                        `;
+                    });
+                }
+
+                card.innerHTML = `<h4 style="color: var(--accent); margin-bottom: 12px; font-size: 0.95rem; text-transform:uppercase;">Página ${p}</h4>${inputsHtml}`;
+                container.appendChild(card);
+            }
+        }
+
+        function guardarConfiguracion() {
+            if (!appData.isAdmin) return;
+
+            const inputs = document.querySelectorAll('.admin-input-page');
+            inputs.forEach(input => {
+                const p = input.getAttribute('data-pagina');
+                const idx = parseInt(input.getAttribute('data-index'));
+                if (!appData.paginas[p]) appData.paginas[p] = [];
+                appData.paginas[p][idx] = input.value.trim() || `Caballo ${idx + 1}`;
+            });
+
+            saveToCloud();
+            resetPageSelectors();
+            onPageChange(1);
+            onPageChange(2);
+            onPageChange(3);
+            renderCombinaciones();
+            alert('¡Configuración guardada correctamente!');
+        }
+
+        function borrarTodosNombresCaballos() {
+            if (!appData.isAdmin) return;
+            if (confirm('¿Estás seguro de vaciar y borrar todos los nombres de los caballos de las 6 páginas?')) {
+                for (let p = 1; p <= DEFAULT_PAGES; p++) {
+                    appData.paginas[p] = [];
+                    for (let c = 1; c <= DEFAULT_ITEMS_PER_PAGE; c++) {
+                        appData.paginas[p].push(`Caballo ${c}`);
+                    }
+                }
+                saveToCloud();
+                renderAdminConfig();
+                resetPageSelectors();
+                alert('Se han restablecido todos los nombres por defecto.');
+            }
+        }
+
+        function toggleAdminModal() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.toggle('hidden');
+            if(!modal.classList.contains('hidden')) {
+                document.getElementById('adminPassInput').focus();
+            }
+        }
+
+        function loginAdmin() {
+            const passField = document.getElementById('adminPassInput');
+            const pass = passField.value;
+            if (pass === appData.adminPass) {
+                appData.isAdmin = true;
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                document.getElementById('adminBtn').classList.add('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                toggleAdminModal();
+                passField.value = '';
+                renderCombinaciones();
+                renderAdminConfig();
+                renderResultadosInputs();
+                alert('Sesión de Administrador iniciada.');
+            } else {
+                alert('Contraseña incorrecta.');
+            }
+        }
+
+        function logoutAdmin() {
+            appData.isAdmin = false;
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+            document.getElementById('adminBtn').classList.remove('hidden');
+            document.getElementById('logoutBtn').classList.add('hidden');
+            switchTab('crear');
+            renderCombinaciones();
+        }
+
+        function cambiarClave() {
+            if (!appData.isAdmin) return;
+            const newPassField = document.getElementById('newPass');
+            const newPass = newPassField.value.trim();
+            if (newPass) {
+                appData.adminPass = newPass;
+                saveToCloud();
+                newPassField.value = '';
+                alert('¡Clave de administrador actualizada con éxito!');
+            } else {
+                alert('La clave no puede estar vacía.');
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+
+            if (tabName === 'crear') {
+                resetPageSelectors();
+            } else if (tabName === 'ver') {
+                renderCombinaciones();
+            } else if (tabName === 'config' && appData.isAdmin) {
+                renderAdminConfig();
+                renderResultadosInputs();
+            }
+        }
+
+        initSync();
+    </script>
+</body>
+</html>
